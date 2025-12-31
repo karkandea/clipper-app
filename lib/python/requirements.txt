@@ -1,0 +1,4 @@
+openai-whisper
+mediapipe
+opencv-python
+yt-dlp
