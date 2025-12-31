@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
-    '/api/**/*': ['./bin/**/*'],
+    '/api/**/*': ['./bin/yt-dlp-linux'],
   },
 };
 

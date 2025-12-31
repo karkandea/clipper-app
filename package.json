@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "postinstall": "node scripts/install-yt-dlp.js"
+    "lint": "eslint"
   },
   "dependencies": {
     "next": "16.1.1",
