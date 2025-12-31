@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 
+import { getYtDlpPath } from '@/lib/binaries';
+
 const execPromise = promisify(exec);
 
 export async function POST(req: NextRequest) {
@@ -14,7 +16,8 @@ export async function POST(req: NextRequest) {
 
     console.log(`Fetching info for: ${videoId}`);
 
-    const command = `yt-dlp --dump-json https://www.youtube.com/watch?v=${videoId}`;
+    const ytDlpPath = getYtDlpPath();
+    const command = `${ytDlpPath} --dump-json https://www.youtube.com/watch?v=${videoId}`;
     const { stdout, stderr } = await execPromise(command);
 
     if (stderr && !stdout) {

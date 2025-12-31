@@ -4,6 +4,8 @@ import { promisify } from 'util';
 import path from 'path';
 import fs from 'fs';
 
+import { getYtDlpPath } from '@/lib/binaries';
+
 const execPromise = promisify(exec);
 
 export async function POST(req: NextRequest) {
@@ -26,12 +28,13 @@ export async function POST(req: NextRequest) {
 
     console.log(`Downloading clip: ${videoId} (${startTime}-${endTime}s) [${format}]`);
 
+    const ytDlpPath = getYtDlpPath();
     let downloadCommand = '';
     if (format === 'mp3') {
-      downloadCommand = `yt-dlp -x --audio-format mp3 --download-sections "*${startTime}-${endTime}" -o "${outputPath}" --force-overwrites "https://www.youtube.com/watch?v=${videoId}"`;
+      downloadCommand = `${ytDlpPath} -x --audio-format mp3 --download-sections "*${startTime}-${endTime}" -o "${outputPath}" --force-overwrites "https://www.youtube.com/watch?v=${videoId}"`;
     } else {
       const formatSelector = `bestvideo[height<=${quality}]+bestaudio/best[height<=${quality}]`;
-      downloadCommand = `yt-dlp -f "${formatSelector}" --download-sections "*${startTime}-${endTime}" --merge-output-format mp4 -o "${outputPath}" --force-overwrites "https://www.youtube.com/watch?v=${videoId}"`;
+      downloadCommand = `${ytDlpPath} -f "${formatSelector}" --download-sections "*${startTime}-${endTime}" --merge-output-format mp4 -o "${outputPath}" --force-overwrites "https://www.youtube.com/watch?v=${videoId}"`;
     }
 
     console.log(`Running: ${downloadCommand}`);
